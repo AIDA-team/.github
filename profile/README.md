@@ -284,7 +284,7 @@ cat logs/model_history.json | python -m json.tool
 - 모델 학습 히스토리
 - OpenAI API 연동 설정
 
-## 🔬 기술 스택
+## 기술 스택
 
 ### Backend
 - **Flask 3.0.0** - REST API 서버

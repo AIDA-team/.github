@@ -11,7 +11,7 @@
 [![Flask](https://img.shields.io/badge/Flask-3.0.0-green.svg)](https://flask.palletsprojects.com/)
 [![XGBoost](https://img.shields.io/badge/XGBoost-2.0.0-orange.svg)](https://xgboost.readthedocs.io/)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-
+![image.png](attachment:7e2460c5-d358-4342-8f17-26b670646b9d:image.png)
 네트워크 패킷을 실시간으로 분석하여 9가지 공격 유형을 탐지하고, Feature 기반 판단 근거와 함께 AI 기반 위협 평가 및 대응 방안을 자동으로 제공하는 지능형 보안 시스템입니다.
 
 ## 주요 기능

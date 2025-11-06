@@ -1,8 +1,5 @@
-# AIDA
-
-<img width="1656" height="868" alt="image" src="https://github.com/user-attachments/assets/a11515b0-ac19-4659-9804-fab1b0738cd2" />
-
 # AIDA - AI-Driven Intrusion Detection & Analysis
+<img width="1656" height="868" alt="image" src="https://github.com/user-attachments/assets/a11515b0-ac19-4659-9804-fab1b0738cd2" />
 
 > XGBoost 기반 네트워크 침입 탐지 시스템 (NIDS)
 > AI 기반 공격 분석 및 자동 대응 방안 제시
@@ -12,7 +9,8 @@
 [![XGBoost](https://img.shields.io/badge/XGBoost-2.0.0-orange.svg)](https://xgboost.readthedocs.io/)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-네트워크 패킷을 실시간으로 분석하여 9가지 공격 유형을 탐지하고, Feature 기반 판단 근거와 함께 AI 기반 위협 평가 및 대응 방안을 자동으로 제공하는 지능형 보안 시스템입니다.
+네트워크 패킷을 실시간으로 분석하여 **9가지 공격 유형**을 탐지하고, Feature 기반 판단 근거와 함께 AI 기반 위협 평가 및 대응 방안을 자동으로 제공하는 **지능형 네트워크 침입 탐지 시스템(Intelligent Network Intrusion Detection System)** 입니다.
+</br></br>
 
 ## 주요 기능
 
@@ -28,6 +26,8 @@ UNSW-NB15 데이터셋 기반으로 9가지 공격 유형을 실시간 분류:
 - **Fuzzers** - 프로토콜 교란 공격 (심각도: 6/10)
 - **Reconnaissance** - 정보 수집 및 스캐닝 (심각도: 5/10)
 - **Analysis** - 포트 분석 및 정보 수집 (심각도: 3/10)
+
+</br>
 
 ### 2. Feature 기반 지능형 분석
 42개의 네트워크 특성을 종합 분석하여 **구체적인 탐지 근거**를 자동 생성:
@@ -48,6 +48,8 @@ UNSW-NB15 데이터셋 기반으로 9가지 공격 유형을 실시간 분류:
 - TCP RTT (`tcp_rtt`)
 - 서비스별 연결 수 (`service_connections`)
 
+</br>
+
 ### 3. 자동 모델 선택 시스템
 10일간의 점진적 학습을 통해 **최적의 모델을 자동으로 선택**:
 
@@ -65,6 +67,8 @@ if new_model_score < best_score:
   - Accuracy: 83.57%
   - Total Error: 9.80% (가장 낮음)
 
+</br>
+
 ### 4. 실시간 성능 추적
 일별 탐지 성능을 실시간으로 모니터링:
 
@@ -73,11 +77,15 @@ if new_model_score < best_score:
 - **Detection Rate**: 실제 공격 탐지율
 - **Accuracy**: 전체 분류 정확도
 
+</br>
+
 ### 5. 시각화 대시보드
 - **10일 캘린더**: 일별 공격 수 및 평균 심각도 시각화
 - **실시간 공격 분석**: 공격 유형, 패킷 정보, AI 분석 결과
 - **통계 차트**: 공격 유형 분포 (Doughnut), 심각도 분포 (Bar)
 - **성능 메트릭**: FPR/FNR 실시간 추이 그래프
+
+</br>
 
 ### 6. AI 기반 대응 방안
 공격 유형별로 즉시 실행 가능한 구체적인 대응 방법 제시:
@@ -89,7 +97,37 @@ DoS 공격 대응 방안
 3. 공격 출발지 IP 자동 차단 규칙 적용
 4. ISP 협조 요청으로 upstream 차단
 ```
+</br></br>
 
+
+## UX/UI
+<img width="1276" height="813" alt="image" src="https://github.com/user-attachments/assets/bdf84bb7-85ba-4098-91bd-e0f9e535d61b" />
+</br></br>
+
+
+## Architecture Diagram
+<img width="1220" height="350" alt="image" src="https://github.com/user-attachments/assets/548b1153-4eec-412d-97dd-5dbfbaa72a1f" />
+
+- **NIDS는 보조 시스템(Subsystem)으로** 네트워크 침입을 감지하고 알림하는 서비스
+- 이를 위해 사용자의 요청(Network Traffic)을 **복사(Mirroring)하여 NIDS로 전송**
+    - **L3 스위치** : Packet 레벨의 이상 탐지가 필요한 경우 사용, ex) `DDoS` 등
+    - **L7 로드밸런서** : HTTP 레벨의 이상 탐지가 필요한 경우 사용, ex) `XSS`, `CSRF` 등
+</br></br>
+
+## API Sequence Diagram
+<img width="1533" height="952" alt="image" src="https://github.com/user-attachments/assets/eb030d58-e406-430f-913d-bfeb2175393e" />
+
+- **1️⃣ 모델 학습 프로세스**
+    - 복사된 네트워크 패킷 데이터를 바탕으로 **전처리를 진행,** 학습을 위한 데이터로 변환
+    - 전처리된 데이터를 **DB에 저장**
+    - DB에 저장된 데이터를 통해 **모델을 학습**
+- **2️⃣ 침입 탐지 프로세스**
+    - 사용자의 실시간 요청 데이터를 복사하여 NIDS로 전달 받음
+    - 분류를 위한 전처리 과정을 수행
+    - 침입 탐지 과정을 수행 (분류, Detection)
+    - 공격으로 분류되었다면, LLM(Chat GPT)으로 전달하여 대처 방안에 대한 응답을 생성
+    - 관리자 페이지로 전달하여 알림(Alert)
+</br></br>
 
 ## 프로젝트 구조
 
